@@ -7,7 +7,7 @@ export default function Navbar() {
 
           <div className="space-y-2">
             <p className="text-xs font-medium uppercase tracking-[0.28em] text-soft-gray">
-              Mojito Ledger
+              Marketing Mojito
             </p>
             <h1 className="font-display text-[2rem] leading-none tracking-[-0.02em] text-dark-gray">
               Expense Tracker

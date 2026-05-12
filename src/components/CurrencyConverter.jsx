@@ -12,9 +12,6 @@ export default function CurrencyConverter({ totalAmount, baseCurrency, currencie
   const [convertedAmount, setConvertedAmount] = useState(totalAmount);
   const [displayCurrency, setDisplayCurrency] = useState(baseCurrency);
   const [status, setStatus] = useState("idle");
-  const [statusMessage, setStatusMessage] = useState(
-    "Rates update automatically."
-  );
   const [lastUpdated, setLastUpdated] = useState("");
 
   useEffect(() => {
@@ -31,12 +28,10 @@ export default function CurrencyConverter({ totalAmount, baseCurrency, currencie
         setConvertedAmount(totalAmount);
         setDisplayCurrency(baseCurrency);
         setStatus("idle");
-        setStatusMessage("No conversion needed yet.");
         return;
       }
 
       setStatus("loading");
-      setStatusMessage("Fetching the latest rate...");
 
       const result = await getConvertedAmount({
         amount: totalAmount,
@@ -51,12 +46,10 @@ export default function CurrencyConverter({ totalAmount, baseCurrency, currencie
         setDisplayCurrency(targetCurrency);
         setLastUpdated(result.updatedAt || "");
         setStatus("idle");
-        setStatusMessage("Rate updated.");
       } else {
         setConvertedAmount(totalAmount);
         setDisplayCurrency(baseCurrency);
         setStatus("error");
-        setStatusMessage(result.error || "Live rates unavailable. Showing base total.");
       }
     };
 
@@ -107,9 +100,6 @@ export default function CurrencyConverter({ totalAmount, baseCurrency, currencie
       <div className="mt-4 rounded-xl border border-medium-gray/60 bg-white p-4">
         <div className="flex items-center justify-between gap-3">
           <p className="text-xs text-soft-gray">Converted total</p>
-          {lastUpdated ? (
-            <span className="text-xs text-soft-gray">Rate date: {lastUpdated}</span>
-          ) : null}
         </div>
         <p className="mt-2 text-2xl font-semibold text-dark-gray">
           {formatCurrency(convertedAmount, displayCurrency)}
@@ -120,7 +110,6 @@ export default function CurrencyConverter({ totalAmount, baseCurrency, currencie
           }`}
           aria-live="polite"
         >
-          {status === "loading" ? "Updating conversion..." : statusMessage}
         </p>
       </div>
     </section>
